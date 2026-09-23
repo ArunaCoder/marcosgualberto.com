@@ -4,8 +4,11 @@
 /images/
 /Identidade Visual/
 
-# Derivados de imagem (regeneráveis com `npm run images`)
-/public/photos/
+# public/photos/ e public/thumbs/ SÃO commitados, apesar de derivados.
+# O workflow do GitHub Actions constrói o site a partir de um clone limpo, e
+# `images/` (a fonte, 640 MB) nunca vai estar lá — então as derivadas são a
+# fonte de verdade para o build. São ~20 MB no total.
+# Cuidado: cada `npm run images` que mude os JPEGs grava blobs novos no histórico.
 
 # Build
 /dist/
@@ -22,4 +25,3 @@ Thumbs.db
 .idea/
 .tmp/
 .preview/
-/public/thumbs/

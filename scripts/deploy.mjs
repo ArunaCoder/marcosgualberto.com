@@ -1,12 +1,13 @@
 /**
  * Publica dist/ na branch gh-pages.
  *
+ * NÃO é mais o caminho normal: quem publica é .github/workflows/deploy.yml, a
+ * cada push na main. Com o Pages apontado para "GitHub Actions", rodar isto aqui
+ * atualiza a branch gh-pages e NÃO muda o site. Fica como saída de emergência —
+ * para voltar a valer, o Source em Settings › Pages tem que apontar a branch.
+ *
  *   node scripts/deploy.mjs            # deduz o caminho base pelo remote
  *   node scripts/deploy.mjs --dry      # constrói e mostra o que faria, sem publicar
- *
- * Por que uma branch separada: as fotos (public/photos/, public/thumbs/) ficam
- * no .gitignore, então a branch principal não tem as imagens. O site publicado
- * precisa delas — vai tudo por aqui, já construído.
  *
  * O GitHub Pages serve o site em https://<usuario>.github.io/<repositorio>/,
  * então o build recebe BASE=/<repositorio> para os caminhos não quebrarem.

@@ -1,0 +1,68 @@
+# Constrói o site e publica no GitHub Pages a cada push na main.
+#
+# Em Settings › Pages, o Source precisa estar em "GitHub Actions" (não em
+# "Deploy from a branch") — senão o Pages continua servindo a branch gh-pages
+# antiga e este workflow não tem efeito nenhum.
+#
+# As fotos vêm de public/photos/, commitadas no repositório: o clone do CI não
+# tem images/ (os 640 MB de originais), então não há como gerá-las aqui.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permite disparar à mão pela aba Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Um deploy por vez. Pushes que chegam durante um deploy ficam na fila e só o
+# último sobrevive; o que já está publicando não é cancelado, para não deixar o
+# site pela metade.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Com domínio próprio o site é servido na raiz; sob github.io ele mora em
+      # /<repositorio>/. A presença de public/CNAME diz qual é o caso, então
+      # apontar o domínio é só adicionar aquele arquivo — nada muda aqui.
+      - name: Definir o caminho base
+        run: |
+          if [ -f public/CNAME ]; then
+            echo "BASE=" >> "$GITHUB_ENV"
+            echo "domínio próprio ($(cat public/CNAME)) — base na raiz"
+          else
+            echo "BASE=/${{ github.event.repository.name }}" >> "$GITHUB_ENV"
+            echo "base: /${{ github.event.repository.name }}"
+          fi
+
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

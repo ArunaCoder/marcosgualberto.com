@@ -1,0 +1,25 @@
+# Fotos e identidade visual originais (~640 MB) — NÃO commitar.
+# Ficam só na máquina / num drive. O site usa as versões derivadas em public/photos/,
+# geradas por `npm run images`.
+/images/
+/Identidade Visual/
+
+# Derivados de imagem (regeneráveis com `npm run images`)
+/public/photos/
+
+# Build
+/dist/
+/.tsc/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# SO / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.tmp/
+.preview/
+/public/thumbs/

@@ -10,6 +10,7 @@ runtime de UI no navegador, nenhuma dependência além do compilador.
 
 ```
 npm install
+npm run brand      # gera public/brand/ a partir dos PNGs da identidade
 npm run images     # gera public/photos/ a partir de images/ (precisa do ImageMagick)
 npm run dev        # build + servidor em http://localhost:4321
 npm run thumbs     # miniaturas da galeria (precisa de dist/ pronto; depois rode build de novo)
@@ -27,7 +28,7 @@ src/
   lib/
     html.ts              template `html` com escape automático
     photos.ts            <picture> responsivo (webp + jpg) a partir de uma chave
-    brand.ts             logo SVG embutido, recolorível por CSS
+    brand.ts             a marca como <img>, em cor/branco/preto
     base.ts              prefixo das URLs (para servir em subpasta)
     shell.ts             <head>, <body> e a barra de navegação entre estudos
     reset.css            reset colado no topo de cada style.css
@@ -36,6 +37,7 @@ src/
   gallery/               a página inicial que lista as propostas
   build.ts               descobre os estudos e escreve dist/
 scripts/
+  brand.mjs              deriva a marca dos PNGs oficiais (Pillow)
   images.mjs             deriva as fotos do site (ImageMagick)
   thumbs.py              miniaturas da galeria (playwright + ImageMagick)
   preview.mjs            compila e constrói UM estudo isolado
@@ -43,7 +45,7 @@ scripts/
   shot.py                screenshot + checagem de erros (playwright)
   deploy.mjs             publica dist/ na branch gh-pages
 public/
-  brand/                 logo em SVG e favicons
+  brand/                 gerado por `npm run brand` (marca + favicons)
   photos/                gerado por `npm run images` (fora do git)
   thumbs/                gerado por `npm run thumbs` (fora do git)
 ```
@@ -57,19 +59,27 @@ As fotos originais (`images/`, ~570 MB), a identidade visual original
 
 ## A marca
 
-O logotipo foi refeito a partir do material original: a gota é vetorização do
-arquivo `.eps` da identidade, e o logotipo "Marcos Gualberto" foi composto na
-mesma fonte da marca (Elephant, que veio no kit) — trocando "MESTRE" por
-"MARCOS". Arquivos em `public/brand/`: `mg-horizontal`, `mg-vertical`,
-`mg-gota`, `mg-wordmark`.
+A marca vem dos PNGs oficiais do manual de identidade, em
+`Identidade Visual/2_MARCA_MESTRE_GUALBERTO/`. `npm run brand` os recorta,
+reduz para tamanhos de web e escreve `public/brand/`, junto com `sizes.json`
+(dimensões intrínsecas, para o `<img>` reservar espaço e a página não saltar).
+
+Antes havia SVGs redesenhados à mão e recoloridos por CSS; os originais são
+mais precisos, então a cor agora se escolhe pela versão do arquivo.
+
+Arquivos: `mg-horizontal`, `mg-vertical` e `mg-gota`, cada um em três versões —
+sem sufixo (cor), `-branco` e `-preto` — mais `favicon-32.png` e `icon-180.png`,
+derivados da gota.
 
 Cores: azul `#255AA6` (gota: `#005EAA`), laranja `#EF7911`.
 
-Como o logo é embutido inline no HTML, as cores respondem a variáveis CSS:
-
-```css
-.rodape .logo { --logo-blue: #fff; --logo-orange: #ef7911; }
+```ts
+logo("horizontal")                          // azul + laranja
+logo("vertical", { tone: "branco" })        // sobre fundo escuro
+logo("gota", { label: "", tone: "branco" }) // marca d'água, decorativa
 ```
+
+A transparência de marca d'água vem de `opacity` no CSS, não da cor do arquivo.
 
 ## Como escrever um estudo
 

@@ -1,5 +1,7 @@
 # marcosgualberto.com
 
+**Ver no ar:** https://arunacoder.github.io/marcosgualberto.com/
+
 Novo site do Marcos Gualberto, saindo do WordPress + Elementor. Esta fase é um
 **estudo de direção visual**: dez homepages com o mesmo conteúdo e a mesma marca,
 em dez estilos diferentes, para escolher o rumo antes de construir o site todo.

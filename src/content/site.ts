@@ -90,6 +90,9 @@ export type PhotoKey = keyof typeof photos;
 /** O site atual, de onde saíram os textos e para onde apontam os links reais. */
 const ORIGIN = "https://mestregualberto.com";
 
+/** Fala dele que a home de mestregualberto.com estampa em destaque. */
+const BOLO = "Largue a receita, menino, menina, e vá comer o bolo!";
+
 export const site = {
   name: "Marcos Gualberto",
   domain: "marcosgualberto.com",
@@ -147,6 +150,7 @@ export const site = {
     primary: { label: "Ver a agenda", href: "#agenda" },
     secondary: { label: "O que é Satsang", href: "#satsang" },
     photo: "riso" as PhotoKey,
+    caption: `“${BOLO}”`,
   },
 
   about: {
@@ -334,7 +338,7 @@ export const site = {
       source: "Marcos Gualberto",
     },
     {
-      text: "Largue a receita, menino, menina, e vá comer o bolo!",
+      text: BOLO,
       source: "Marcos Gualberto",
     },
   ],

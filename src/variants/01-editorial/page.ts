@@ -56,7 +56,7 @@ export const variant: Variant = {
             ratio: "4 / 5",
             className: "hero__img",
           })}
-          <figcaption>Satsang. Ele ri bastante — o assunto é que é sério.</figcaption>
+          <figcaption>${site.hero.caption}</figcaption>
         </figure>
       </section>
 

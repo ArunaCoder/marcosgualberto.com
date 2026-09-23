@@ -785,8 +785,12 @@ a:hover .arrow {
   .sec {
     grid-template-columns: 1fr;
   }
+  /* relative, não static: cancela o sticky mas segue sendo o bloco de
+     referência da .sec__cap, senão as sete legendas escapam e se empilham
+     todas no mesmo ponto do topo da página */
   .sec__media {
-    position: static;
+    position: relative;
+    top: auto;
     height: auto;
     aspect-ratio: 4 / 3;
   }

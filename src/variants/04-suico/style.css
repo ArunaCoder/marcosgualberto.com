@@ -1290,16 +1290,34 @@ body {
   .hero__act .btn {
     width: 100%;
   }
+  /* empilhado: cada campo na sua própria linha, senão encavalam */
   .ev__when,
   .ev__where,
   .ev__price,
   .ev__cta {
     grid-column: 1 / 13;
   }
+  .ev__when {
+    grid-row: 3;
+  }
   .ev__where {
-    margin-top: 16px;
+    grid-row: 4;
+  }
+  .ev__price {
+    grid-row: 5;
   }
   .ev__cta {
+    grid-row: 6;
+  }
+  .ev__where,
+  .ev__price {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .ev__cta {
+    margin-top: 22px;
+    align-self: start;
     justify-self: start;
     text-align: left;
   }
